@@ -17,7 +17,18 @@ function HomeScreen({navigation, photos, getPhotos, loading}) {
   }, []);
 
   return (
-    <SafeAreaView style={{backgroundColor: 'white'}}>
+    <SafeAreaView
+      style={{backgroundColor: 'white', flex: 1, position: 'relative'}}>
+      <ActivityIndicator
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+        }}
+        animating={loading}
+      />
       <ScrollView>
         <View
           style={{
@@ -27,46 +38,40 @@ function HomeScreen({navigation, photos, getPhotos, loading}) {
             padding: 10,
             backgroundColor: 'white',
           }}>
-          {loading ? (
-            <View style={{flex: 1, backgroundColor:"white"}}>
-              <Text>Loading...</Text>
+          {photos.map((item, index) => (
+            <View key={index}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Photo', {item: item.urls.full})
+                }>
+                <Image
+                  source={{uri: item.urls.full}}
+                  style={{width: 'auto', height: 200}}
+                />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: 16,
+                  fontStyle: 'italic',
+                }}>
+                Name:
+                {item.user.name !== null ? item.user.name : 'No name'}
+              </Text>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  marginBottom: 20,
+                  fontSize: 16,
+                  fontStyle: 'italic',
+                }}>
+                Description:
+                {item.description !== null
+                  ? item.description
+                  : 'No description'}
+              </Text>
             </View>
-          ) : (
-            photos.map((item, index) => (
-              <View key={index}>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('Photo', {item: item.urls.full})
-                  }>
-                  <Image
-                    source={{uri: item.urls.full}}
-                    style={{width: 'auto', height: 200}}
-                  />
-                </TouchableOpacity>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontSize: 16,
-                    fontStyle: 'italic',
-                  }}>
-                  Name:
-                  {item.user.name !== null ? item.user.name : 'No name'}
-                </Text>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    marginBottom: 20,
-                    fontSize: 16,
-                    fontStyle: 'italic',
-                  }}>
-                  Description:
-                  {item.description !== null
-                    ? item.description
-                    : 'No description'}
-                </Text>
-              </View>
-            ))
-          )}
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
