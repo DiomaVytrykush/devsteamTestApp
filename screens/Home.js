@@ -17,8 +17,7 @@ function HomeScreen({navigation, photos, getPhotos, loading}) {
   }, []);
 
   return (
-    <SafeAreaView
-      style={{backgroundColor: 'white', flex: 1, position: 'relative'}}>
+    <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
       <ActivityIndicator
         style={{
           position: 'absolute',
@@ -28,6 +27,7 @@ function HomeScreen({navigation, photos, getPhotos, loading}) {
           bottom: 0,
         }}
         animating={loading}
+        color="grey"
       />
       <ScrollView>
         <View
